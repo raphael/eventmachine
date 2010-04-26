@@ -91,6 +91,7 @@ class EventableDescriptor: public Bindable_t
 		virtual bool IsPaused(){ return false; }
 		virtual bool Pause(){ return false; }
 		virtual bool Resume(){ return false; }
+		virtual bool IsConnectionPending(){ return bConnectPending; }
 
 		virtual int ReportErrorStatus(){ return 0; }
 		virtual bool IsConnectPending(){ return false; }
@@ -102,6 +103,7 @@ class EventableDescriptor: public Bindable_t
 
 	protected:
 		int MySocket;
+		bool bConnectPending;
 
 		EMCallback EventCallback;
 		void _GenericInboundDispatch(const char*, int);
@@ -217,7 +219,6 @@ class ConnectionDescriptor: public EventableDescriptor
 
 	protected:
 		bool bPaused;
-		bool bConnectPending;
 
 		bool bNotifyReadable;
 		bool bNotifyWritable;

@@ -1,5 +1,8 @@
+debug
+obj
 pkg
 rdoc
+release
 Makefile
 
 *.bundle
@@ -14,3 +17,6 @@ Makefile
 *.dSYM
 java/src/.project
 *.rbc
+*.ncb
+*.suo
+*.vcproj.*.user

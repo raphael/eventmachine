@@ -54,6 +54,7 @@ EventableDescriptor::EventableDescriptor (int sd, EventMachine_t *em):
 	bCloseNow (false),
 	bCloseAfterWriting (false),
 	MySocket (sd),
+	bConnectPending(false),
 	EventCallback (NULL),
 	bCallbackUnbind (true),
 	UnbindReasonCode (0),
@@ -137,7 +138,7 @@ void EventableDescriptor::Close()
 	// Close the socket right now. Intended for emergencies.
 	if (MySocket != INVALID_SOCKET) {
 		shutdown (MySocket, 1);
-		closesocket (MySocket);
+		close (MySocket);
 		MySocket = INVALID_SOCKET;
 	}
 }
@@ -316,7 +317,6 @@ ConnectionDescriptor::ConnectionDescriptor
 ConnectionDescriptor::ConnectionDescriptor (int sd, EventMachine_t *em):
 	EventableDescriptor (sd, em),
 	bPaused (false),
-	bConnectPending (false),
 	bNotifyReadable (false),
 	bNotifyWritable (false),
 	bWatchOnly (false),
@@ -1333,7 +1333,7 @@ void AcceptorDescriptor::Read()
 		//int val = fcntl (sd, F_GETFL, 0);
 		//if (fcntl (sd, F_SETFL, val | O_NONBLOCK) == -1) {
 			shutdown (sd, 1);
-			closesocket (sd);
+			close (sd);
 			continue;
 		}
 
