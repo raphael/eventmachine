@@ -342,6 +342,27 @@ module EventMachine
     EventMachine::PeriodicTimer.new(interval, code)
   end
 
+  # EventMachine#add_wall_clock_periodic_timer adds a periodic timer to the
+  # event loop which schedules itself to run again before calling the code
+  # associated with the timer. this allows for better synchronization with the
+  # machine's clock time.
+  #
+  # === Usage example
+  #
+  #  EventMachine::run {
+  #    EventMachine::add_wall_clock_periodic_timer( 5 ) { $stderr.write "$" }
+  #  }
+  #
+  #
+  # Also see EventMachine::WallClockPeriodicTimer
+  #
+  def self.add_wall_clock_periodic_timer *args, &block
+    interval = args.shift
+    code = args.shift || block
+
+    EventMachine::WallClockPeriodicTimer.new(interval, code)
+  end
+
   # Cancel a timer using its signature. You can also use EventMachine::Timer#cancel
   #
   def self.cancel_timer timer_or_sig

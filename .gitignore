@@ -20,3 +20,6 @@ java/src/.project
 *.ncb
 *.suo
 *.vcproj.*.user
+*.exp
+*.obj
+*.lib

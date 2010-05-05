@@ -53,4 +53,23 @@ module EventMachine
       end
     end
   end
+
+  # Creates a wall-clock periodic timer which reschedules itself before calling
+  # the client code.
+  #
+  #  n = 0
+  #  timer = EventMachine::WallClockPeriodicTimer.new(5) do
+  #    puts "the time is #{Time.now}"
+  #    timer.cancel if (n+=1) > 5
+  #  end
+  #
+  class WallClockPeriodicTimer < PeriodicTimer
+    def fire # :nodoc:
+      unless @cancelled
+        schedule
+        @code.call
+      end
+    end
+  end
+
 end
